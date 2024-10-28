@@ -1,6 +1,6 @@
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Float
-from database import Base
+from .database import Base
 
 class pibData(Base):
     __tablename__ = "gdp_data"
