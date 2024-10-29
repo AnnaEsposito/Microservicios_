@@ -1,0 +1,160 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /:
+    get:
+      summary: Read Root
+      operationId: read_root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /generar-token/:
+    post:
+      summary: Generar Token
+      operationId: generar_token_generar_token__post
+      parameters:
+      - name: usuario_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Usuario Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /calcular-variacion/:
+    post:
+      summary: Calcular Y Guardar Variacion
+      operationId: calcular_y_guardar_variacion_calcular_variacion__post
+      parameters:
+      - name: pais
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Pais
+      - name: "a\xF1o1"
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: "A\xF1o1"
+      - name: "a\xF1o2"
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: "A\xF1o2"
+      - name: authorization
+        in: header
+        required: true
+        schema:
+          type: string
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /pib/{pais}/variacion:
+    get:
+      summary: Obtener Variacion Pib
+      operationId: obtener_variacion_pib_pib__pais__variacion_get
+      parameters:
+      - name: pais
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Pais
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PIBVariacionSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PIBVariacionSchema:
+      properties:
+        id:
+          type: integer
+          title: Id
+        pais:
+          type: string
+          title: Pais
+        "a\xF1o_inicial":
+          type: integer
+          title: "A\xF1o Inicial"
+        "a\xF1o_final":
+          type: integer
+          title: "A\xF1o Final"
+        variacion:
+          type: number
+          title: Variacion
+      type: object
+      required:
+      - id
+      - pais
+      - "a\xF1o_inicial"
+      - "a\xF1o_final"
+      - variacion
+      title: PIBVariacionSchema
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+            type: array
+            title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
